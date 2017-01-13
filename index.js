@@ -5,16 +5,20 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 var app = express();
-mongoose.connect(process.env.PETSWIPE_API);
+mongoose.connect(process.env.PETSWIPE_API, (err, database) => {
+  if (err) return console.log(err);
+  // db = database;
+  // console.log(db);
+  app.listen(3000, () => {
+    console.log('listening on 3000');
+  });
+});
 
 var router = require('./services/router');
 
 app.use(bodyParser.json());
 app.use('/v1', router);
 
-app.listen(3000, () => {
-    console.log('listening on 3000')
-  })
 
 // const uuid = require('uuid');
 //
@@ -103,3 +107,46 @@ var id = '5877cfc517007d4080925e83';
 // });
 
 // User.find({email: email})
+
+var findUrl = process.env.PETFINDER_FIND;
+var getUrl = process.env.PETFINDER_GET;
+
+
+router.get('/favorites', function (req, res) {
+  user.find({email: 'test1@test.com'}, function (err, user){
+    res.json(user[0].favorites);
+  });
+});
+
+router.get('/search', function (req, res) {
+  var size = '&size=' + req.headers.size;
+  var location = '&location=' + req.headers.location;
+  var animal = '&animal=' + req.headers.animal;
+
+  res.redirect(findUrl + animal + location + size);
+});
+
+router.get('/get', function (req, res) {
+  var id = '&id=' + req.headers.id;
+
+  res.redirect(getUrl + id);
+});
+
+router.route('/favorites')
+.post(function(req, res) {
+ favorite =
+ favorite.save();
+ console.log('favorite saved');
+})
+
+router.post('/favorites', function (req, res) {
+  db.collection('users').save(req.body, (err, result) => {
+    if (err) return console.log(err);
+    console.log('saved to database');
+    res.redirect('/')
+  });
+});
+
+module.exports = router;
+
+// favorites/:id
