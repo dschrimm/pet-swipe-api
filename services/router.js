@@ -6,26 +6,29 @@ const mongoose = require('mongoose');
  var router = require('express').Router();
  var user = require('../models/user');
 
-function favorites(req, res, next) {
-  user.find({email: 'test1@test.com'}, function (err, user){
-    res.json(user[0].favorites);
-  });
-}
+ var findUrl = process.env.PETFINDER_FIND;
+ var getUrl = process.env.PETFINDER_GET;
 
-function search(req, res) {
-  var size = ('&size=' + req.headers.size);
-  var location = ('&location=' + req.headers.location);
-  var animal = '&animal=' + req.headers.animal;
 
-  var baseUrl = process.env.PETFINDER_BASE_URL;
-  res.redirect(baseUrl + animal + location + size);
-}
+ router.get('/favorites', function (req, res) {
+   user.find({email: 'test1@test.com'}, function (err, user){
+     res.json(user[0].favorites);
+   });
+ })
 
- router.route('/favorites')
- .get(favorites);
+ router.get('/search', function (req, res) {
+   var size = '&size=' + req.headers.size;
+   var location = '&location=' + req.headers.location;
+   var animal = '&animal=' + req.headers.animal;
 
- router.route('/search')
- .get(search);
+   res.redirect(findUrl + animal + location + size);
+ })
+
+ router.get('/get', function (req, res) {
+   var id = '&id=' + req.headers.id;
+
+   res.redirect(getUrl + id);
+ })
 
  module.exports = router;
 
