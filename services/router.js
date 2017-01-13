@@ -30,6 +30,13 @@ const mongoose = require('mongoose');
    res.redirect(getUrl + id);
  });
 
+router.route('/favorites')
+.post(function(req, res) {
+  favorite =
+  favorite.save();
+  console.log('favorite saved');
+})
+
  router.post('/favorites', function (req, res) {
    db.collection('users').save(req.body, (err, result) => {
      if (err) return console.log(err);

@@ -5,20 +5,23 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 var app = express();
-mongoose.connect(process.env.PETSWIPE_API, (err, database) => {
+
+const MongoClient = require('mongodb').MongoClient
+
+MongoClient.connect(process.env.PETSWIPE_API, (err, database) => {
   if (err) return console.log(err);
-  // db = database;
+  db = database;
   // console.log(db);
   app.listen(3000, () => {
     console.log('listening on 3000');
   });
 });
 
-var router = require('./services/router');
+// var router = require('./services/router');
 
 app.use(bodyParser.json());
-app.use('/v1', router);
-
+// app.use('/v1', router);
+// app.use('/v1', ./);
 
 // const uuid = require('uuid');
 //
@@ -112,13 +115,15 @@ var findUrl = process.env.PETFINDER_FIND;
 var getUrl = process.env.PETFINDER_GET;
 
 
-router.get('/favorites', function (req, res) {
-  user.find({email: 'test1@test.com'}, function (err, user){
-    res.json(user[0].favorites);
-  });
+app.get('/favorites', function (req, res) {
+  // res.json(favorites);
+  // console.log(res.body);
+  // user.find({email: 'test1@test.com'}, function (err, user){
+  //   res.json(user[0].favorites);
+  // });
 });
 
-router.get('/search', function (req, res) {
+app.get('/search', function (req, res) {
   var size = '&size=' + req.headers.size;
   var location = '&location=' + req.headers.location;
   var animal = '&animal=' + req.headers.animal;
@@ -126,27 +131,36 @@ router.get('/search', function (req, res) {
   res.redirect(findUrl + animal + location + size);
 });
 
-router.get('/get', function (req, res) {
+app.get('/get', function (req, res) {
   var id = '&id=' + req.headers.id;
 
   res.redirect(getUrl + id);
 });
 
-router.route('/favorites')
-.post(function(req, res) {
- favorite =
- favorite.save();
- console.log('favorite saved');
+// router.route('/favorites')
+// .post(function(req, res) {
+//  favorite =
+//  favorite.save();
+//  console.log('favorite saved');
+// })
+
+app.post('/favorites', (req, res) => {
+  db.collection('favorites').save(req.body, (err, result) => {
+    if (err) return console.log(err);
+
+    console.log('saved to database');
+    res.redirect('/favorites');
+  });
 })
 
-router.post('/favorites', function (req, res) {
-  db.collection('users').save(req.body, (err, result) => {
-    if (err) return console.log(err);
-    console.log('saved to database');
-    res.redirect('/')
-  });
-});
+// router.post('/favorites', function (req, res) {
+//   db.collection('users').save(req.body, (err, result) => {
+//     if (err) return console.log(err);
+//     console.log('saved to database');
+//     res.redirect('/')
+//   });
+// });
 
-module.exports = router;
+// module.exports = router;
 
 // favorites/:id
