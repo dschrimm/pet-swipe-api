@@ -1,9 +1,13 @@
+require('dotenv').config();
+
+console.log(process.env.PETSWIPE_API);
+
 const express = require ('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 var app = express();
-mongoose.connect(db);
+mongoose.connect(process.env.PETSWIPE_API);
 
 var router = require('./services/router');
 

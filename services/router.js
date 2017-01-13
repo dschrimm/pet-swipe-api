@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require ('express');
 const mongoose = require('mongoose');
 
@@ -11,15 +13,11 @@ function favorites(req, res, next) {
 }
 
 function search(req, res) {
-  // console.log(req.headers.size);
-  console.log(req.headers);
   var size = ('&size=' + req.headers.size);
   var location = ('&location=' + req.headers.location);
   var animal = '&animal=' + req.headers.animal;
-  console.log('>>>>> im in search');
-  // console.log(req);
-  var baseUrl = base;
-  console.log(baseUrl + animal + location + size);
+
+  var baseUrl = process.env.PETFINDER_BASE_URL;
   res.redirect(baseUrl + animal + location + size);
 }
 
