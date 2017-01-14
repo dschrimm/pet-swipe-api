@@ -116,6 +116,10 @@ var getUrl = process.env.PETFINDER_GET;
 
 
 app.get('/favorites', function (req, res) {
+  var cursor = db.collection('favorites').find().toArray(function (err, results) {
+    console.log(results);
+    res.json(results);
+  });
   // res.json(favorites);
   // console.log(res.body);
   // user.find({email: 'test1@test.com'}, function (err, user){
