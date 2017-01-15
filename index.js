@@ -117,14 +117,14 @@ var getUrl = process.env.PETFINDER_GET;
 
 app.get('/favorites', function (req, res) {
   var cursor = db.collection('favorites').find().toArray(function (err, results) {
-    console.log(results);
     res.json(results);
   });
-  // res.json(favorites);
-  // console.log(res.body);
-  // user.find({email: 'test1@test.com'}, function (err, user){
-  //   res.json(user[0].favorites);
-  // });
+});
+
+app.get('/rejections', function (req, res) {
+  var cursor = db.collection('rejections').find().toArray(function (err, results) {
+    res.json(results);
+  });
 });
 
 app.get('/search', function (req, res) {
@@ -155,6 +155,15 @@ app.post('/favorites', (req, res) => {
     console.log('saved to database');
     res.redirect('/favorites');
   });
+})
+
+app.post('/rejections', (req, res) => {
+  db.collection('rejections').save(req.body, (err, result) => {
+    if (err) return console.log(err);
+
+    console.log('saved to database');
+    res.redirect('/rejections')
+  })
 })
 
 // router.post('/favorites', function (req, res) {
