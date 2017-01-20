@@ -8,7 +8,7 @@ var app = express();
 
 const MongoClient = require('mongodb').MongoClient
 
-MongoClient.connect('mongodb://' + process.env.PETSWIPE_API, (err, database) => {
+MongoClient.connect(process.env.PETSWIPE_API, (err, database) => {
   if (err) return console.log(err);
   db = database;
   // console.log(db);
