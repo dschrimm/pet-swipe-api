@@ -143,9 +143,9 @@ app.get('/get', function (req, res) {
 });
 
 app.get('/breeds', function(req, res) {
-  var animal = '&animal=' + req.headers.animal
+  var animal = '&animal=' + req.headers.animal;
   res.redirect(breedsUrl + animal);
-})
+});
 
 // router.route('/favorites')
 // .post(function(req, res) {
@@ -157,8 +157,6 @@ app.get('/breeds', function(req, res) {
 app.post('/favorites', (req, res) => {
   db.collection('favorites').save(req.body, (err, result) => {
     if (err) return console.log(err);
-
-    console.log('saved to database');
     res.redirect('/favorites');
   });
 });
@@ -166,27 +164,13 @@ app.post('/favorites', (req, res) => {
 app.post('/rejections', (req, res) => {
   db.collection('rejections').save(req.body, (err, result) => {
     if (err) return console.log(err);
-
-    console.log('saved to database');
     res.redirect('/rejections');
   });
 });
 
-// app.delete('/favorites', (req, res) => {
-//   db.collection('quotes').findOneAndDelete({id: req.body}, (err, result) => {
-//     if (err) return res.send(500, err);
-//     res.send('Animal removed from favorites');
-//   });
-// });
-
-// router.post('/favorites', function (req, res) {
-//   db.collection('users').save(req.body, (err, result) => {
-//     if (err) return console.log(err);
-//     console.log('saved to database');
-//     res.redirect('/')
-//   });
-// });
-
-// module.exports = router;
-
-// favorites/:id
+app.delete('/favorites/:petId', (req, res) => {
+  db.collection('favorites').findOneAndDelete({petId: req.params.petId}, (err, result) => {
+    if (err) return res.send(500, err);
+    res.send('Animal removed from favorites');
+  });
+});
