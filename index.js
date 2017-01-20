@@ -12,8 +12,8 @@ MongoClient.connect(process.env.PETSWIPE_API, (err, database) => {
   if (err) return console.log(err);
   db = database;
   // console.log(db);
-  app.listen(8081, () => {
-    console.log('listening on 8081');
+  app.listen(3000, () => {
+    console.log('listening on 3000');
   });
 });
 
