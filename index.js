@@ -90,7 +90,7 @@ app.get('/search', function (req, res) {
   var location = '&location=' + req.headers.location;
   var animal = '&animal=' + req.headers.animal;
   var breed;
-  if (req.headers.breed == null) {
+  if (req.headers.breed == undefined) {
     breed = '';
   } else {
     breed = '&breed=' + req.headers.breed;
