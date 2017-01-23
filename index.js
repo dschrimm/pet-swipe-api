@@ -72,8 +72,12 @@ app.get('/search', function (req, res) {
   if (req.headers.sex === '') {
     sex = '';
   }
+  var age = '&age=' + req.headers.age;
+  if (req.headers.age === '') {
+    age = '';
+  }
 
-  var url = findUrl + animal + location + size + breed + sex;
+  var url = findUrl + animal + location + size + breed + sex + age;
 
   res.redirect(url);
 });
