@@ -11,22 +11,15 @@ const MongoClient = require('mongodb').MongoClient
 MongoClient.connect(process.env.PETSWIPE_API, (err, database) => {
   if (err) return console.log(err);
   db = database;
-  app.listen(8081, () => {
+  app.listen(3000, () => {
     console.log('listening on 8081');
   });
 });
 
-// var router = require('./services/router');
-
 app.use(bodyParser.json());
-// app.use('/v1', router);
-// app.use('/v1', ./);
 
-// const uuid = require('uuid');
-//
 var Schema = mongoose.Schema;
-//
-//
+
 var userSchema = new Schema({
    email: {
      type: String,
@@ -44,29 +37,8 @@ var userSchema = new Schema({
      }
    ]
 });
-//
-// userSchema.pre('save', function(next) {
-//   console.log('About to save');
-//   var user = this;
-//   user.password = uuid.v4();
-//   next();
-// })
-//
-// var User = mongoose.model('user', userSchema);
-//
+
 var email = 'test1@test.com';
-// // var user = new User({
-//   // email: email
-// // })
-// //
-// // user.save(function(err) {
-// //   if (err) {
-// //     return console.log(err);
-// //   } else {
-// //     return console.log('User was saved!');
-// //   }
-// // })
-//
 
 var findUrl = process.env.PETFINDER_FIND;
 var getUrl = process.env.PETFINDER_GET;
@@ -87,16 +59,21 @@ app.get('/rejections', function (req, res) {
 
 app.get('/search', function (req, res) {
   var size = '&size=' + req.headers.size;
+  if (req.headers.size === '') {
+    size = '';
+  }
   var location = '&location=' + req.headers.location;
   var animal = '&animal=' + req.headers.animal;
-  var breed;
-  if (req.headers.breed == '') {
+  var breed = '&breed=' + req.headers.breed;
+  if (req.headers.breed === '') {
     breed = '';
-  } else {
-    breed = '&breed=' + req.headers.breed;
+  }
+  var sex = '&sex=' + req.headers.sex;
+  if (req.headers.sex === '') {
+    sex = '';
   }
 
-  var url = findUrl + animal + location + size + breed;
+  var url = findUrl + animal + location + size + breed + sex;
 
   res.redirect(url);
 });
