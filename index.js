@@ -11,7 +11,6 @@ const MongoClient = require('mongodb').MongoClient
 MongoClient.connect(process.env.PETSWIPE_API, (err, database) => {
   if (err) return console.log(err);
   db = database;
-  // console.log(db);
   app.listen(8081, () => {
     console.log('listening on 8081');
   });
@@ -68,48 +67,6 @@ var email = 'test1@test.com';
 // //   }
 // // })
 //
-var text = "this is another todo";
-var favId = 4321;
-// console.log(app);
-
-// User.findOne({email: email}, function(err, user) {
-//   if (err) {
-//     return console.log(err);
-//   }
-//   if (!user) {
-//     return console.log('couldn\'t find user');
-//   }
-//
-//   var count = user.todos.push({
-//     text: text,
-//   });
-//
-//   var count = user.favorites.push({
-//     id: favId
-//   });
-//
-//   console.log(count);
-//   user.save(function(err) {
-//     if (err) {
-//       return console.log(err);
-//     } else {
-//       return console.log('saved');
-//     }
-//   });
-// });
-
-//
-var id = '5877cfc517007d4080925e83';
-//
-// User.update({email: email}, { $pull: { todos: { _id: id } } }, function(err) {
-//   if (err) {
-//     return console.log(err);
-//   } else {
-//     return console.log('removed that todo');
-//   }
-// });
-
-// User.find({email: email})
 
 var findUrl = process.env.PETFINDER_FIND;
 var getUrl = process.env.PETFINDER_GET;
@@ -146,13 +103,6 @@ app.get('/breeds', function(req, res) {
   var animal = '&animal=' + req.headers.animal;
   res.redirect(breedsUrl + animal);
 });
-
-// router.route('/favorites')
-// .post(function(req, res) {
-//  favorite =
-//  favorite.save();
-//  console.log('favorite saved');
-// })
 
 app.post('/favorites', (req, res) => {
   db.collection('favorites').save(req.body, (err, result) => {
