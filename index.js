@@ -89,8 +89,14 @@ app.get('/search', function (req, res) {
   var size = '&size=' + req.headers.size;
   var location = '&location=' + req.headers.location;
   var animal = '&animal=' + req.headers.animal;
+  var breed;
+  if (req.headers.breed == null) {
+    breed = '';
+  } else {
+    breed = '&breed=' + req.headers.breed;
+  }
 
-  res.redirect(findUrl + animal + location + size);
+  res.redirect(findUrl + animal + location + size + breed);
 });
 
 app.get('/get', function (req, res) {
