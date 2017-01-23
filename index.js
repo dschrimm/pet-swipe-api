@@ -11,7 +11,7 @@ const MongoClient = require('mongodb').MongoClient
 MongoClient.connect(process.env.PETSWIPE_API, (err, database) => {
   if (err) return console.log(err);
   db = database;
-  app.listen(3000, () => {
+  app.listen(8081, () => {
     console.log('listening on 8081');
   });
 });
