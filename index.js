@@ -90,13 +90,15 @@ app.get('/search', function (req, res) {
   var location = '&location=' + req.headers.location;
   var animal = '&animal=' + req.headers.animal;
   var breed;
-  if (req.headers.breed == undefined) {
+  if (req.headers.breed == '') {
     breed = '';
   } else {
     breed = '&breed=' + req.headers.breed;
   }
 
-  res.redirect(findUrl + animal + location + size + breed);
+  var url = findUrl + animal + location + size + breed;
+
+  res.redirect(url);
 });
 
 app.get('/get', function (req, res) {
