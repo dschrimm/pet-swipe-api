@@ -46,7 +46,7 @@ var breedsUrl = process.env.PETFINDER_BREEDS;
 
 
 app.get('/favorites', function (req, res) {
-  var cursor = db.collection('favorites').find().toArray(function (err, results) {
+  var cursor = db.collection('favorites').find().sort( { _id: 1 }).toArray(function (err, results) {
     res.json(results);
   });
 });
